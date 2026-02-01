@@ -52,6 +52,7 @@ export const product = defineType({
           { title: 'watch', value: 'watch' },
           { title: 'Shoes', value: 'shoes' },
           { title: 'Bags', value: 'bags' },
+          { title: 'Glasses', value: 'glasses' },
         ],
       },
     },
