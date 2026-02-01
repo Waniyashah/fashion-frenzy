@@ -77,6 +77,7 @@ export function Header() {
               <Link href="/products?category=bags" className="block px-4 py-3 text-sm hover:text-[#D4AF37] hover:bg-gray-900 transition-colors">Bags</Link>
               <Link href="/products?category=shoes" className="block px-4 py-3 text-sm hover:text-[#D4AF37] hover:bg-gray-900 transition-colors border-t border-gray-700">Shoes</Link>
               <Link href="/products?category=watch" className="block px-4 py-3 text-sm hover:text-[#D4AF37] hover:bg-gray-900 transition-colors border-t border-gray-700">Watches</Link>
+              <Link href="/products?category=glasses" className="block px-4 py-3 text-sm hover:text-[#D4AF37] hover:bg-gray-900 transition-colors border-t border-gray-700">Glasses</Link>
             </div>
           </div>
           
@@ -114,7 +115,7 @@ export function Header() {
               <User className="h-5 w-5" />
             </button>
             
-            <div className="absolute right-0 mt-0 w-48 bg-white border border-gray-200 rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+            <div className={`absolute right-0 mt-0 w-48 bg-white border border-gray-200 rounded-md shadow-xl transition-all duration-200 z-10 ${userDropdownOpen ? "opacity-100 visible" : "opacity-0 invisible group-hover:opacity-100 group-hover:visible"}`}>
               {user ? (
                 <>
                   <div className="px-4 py-3 border-b border-gray-100 bg-gray-50">
@@ -187,6 +188,7 @@ export function Header() {
                         <div className="flex flex-col gap-4 pl-4 text-[#D4AF37]/70 text-base border-l border-[#D4AF37]/30 ml-2">
                             <Link href="/products?category=bags" onClick={() => setMobileMenuOpen(false)} className="hover:text-white">Bags</Link>
                             <Link href="/products?category=shoes" onClick={() => setMobileMenuOpen(false)} className="hover:text-white">Shoes</Link>
+                            <Link href="/products?category=glasses" onClick={() => setMobileMenuOpen(false)} className="hover:text-white">Glasses</Link>
                             <Link href="/products?category=watch" onClick={() => setMobileMenuOpen(false)} className="hover:text-white">Watches</Link>
                         </div>
                     )}

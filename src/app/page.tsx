@@ -72,11 +72,12 @@ export default async function Home() {
         <section className="bg-gray-50 dark:bg-gray-900 py-16">
           <div className="container mx-auto px-4 md:px-6">
             <h2 className="text-3xl font-bold tracking-tight uppercase mb-8 text-center">Shop by Category</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
               {[
                 { name: 'Bags', image: '/images/bags.jpg', slug: 'bags' },
                 { name: 'Shoes', image: '/images/shoes.jpg', slug: 'shoes' },
-                { name: 'Watches', image: '/images/watch.jpg', slug: 'watch' }
+                { name: 'Watches', image: '/images/watch.jpg', slug: 'watch' },
+                { name: 'Glasses', image: '/images/glasses.jpg', slug: 'glasses' }
               ].map((cat) => (
                 <Link key={cat.name} href={`/products?category=${cat.slug}`} className="group relative h-64 overflow-hidden rounded-lg cursor-pointer shadow-lg block">
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors z-10" />
