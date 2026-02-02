@@ -81,7 +81,7 @@ export default async function ProductsPage({
                  <p className="text-sm text-gray-500">Please add items to your Sanity Studio (http://localhost:3333).</p>
                </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
+              <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-12 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {products.map((product, index) => (
                   <div key={product.id} className="animate-in fade-in slide-in-from-bottom-5 duration-700" style={{ animationDelay: `${index * 100}ms` }}>
                     <ProductCard product={product} />

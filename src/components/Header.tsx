@@ -3,9 +3,11 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Search, ShoppingBag, User, Menu, ChevronDown, LogOut, X, ChevronRight } from "lucide-react";
+import { Search, ShoppingBag, User, Menu, ChevronDown, LogOut, X, ChevronRight, Heart } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/context/WishlistContext";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface UserData {
   id: string;
@@ -20,6 +22,7 @@ export function Header() {
   const [mobileCategoryOpen, setMobileCategoryOpen] = useState(false);
   const [user, setUser] = useState<UserData | null>(null);
   const { getItemCount } = useCart();
+  const { items: wishlistItems } = useWishlist();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -124,7 +127,7 @@ export function Header() {
                   </div>
                   <Link href="/profile" className="block px-4 py-3 text-sm text-gray-700 hover:text-[#D4AF37] hover:bg-gray-50 transition-colors">My Profile</Link>
                   <Link href="/orders" className="block px-4 py-3 text-sm text-gray-700 hover:text-[#D4AF37] hover:bg-gray-50 transition-colors border-t border-gray-100">My Orders</Link>
-                  <Link href="#" className="block px-4 py-3 text-sm text-gray-700 hover:text-[#D4AF37] hover:bg-gray-50 transition-colors border-t border-gray-100">Wishlist</Link>
+                  <Link href="/wishlist" className="block px-4 py-3 text-sm text-gray-700 hover:text-[#D4AF37] hover:bg-gray-50 transition-colors border-t border-gray-100">Wishlist</Link>
                   <button 
                     onClick={handleLogout}
                     className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:text-red-500 hover:bg-gray-50 transition-colors border-t border-gray-100 flex items-center gap-2"
@@ -142,6 +145,13 @@ export function Header() {
             </div>
           </div>
 
+          <Link href="/wishlist" className="p-2 hover:bg-gray-800 rounded-full text-white hover:text-[#D4AF37] relative transition-colors hidden sm:block">
+            <Heart className="h-5 w-5" />
+            <span className="absolute top-0 right-0 h-4 w-4 text-[10px] bg-[#D4AF37] text-white rounded-full flex items-center justify-center">
+              {mounted ? wishlistItems.length : 0}
+            </span>
+          </Link>
+
           <Link href="/cart" className="p-2 hover:bg-gray-800 rounded-full text-white hover:text-[#D4AF37] relative transition-colors">
             <ShoppingBag className="h-5 w-5" />
             <span className="absolute top-0 right-0 h-4 w-4 text-[10px] bg-[#D4AF37] text-white rounded-full flex items-center justify-center">
@@ -152,16 +162,28 @@ export function Header() {
       </div>
 
       {/* Mobile Menu Overlay */}
+      <AnimatePresence>
       {mobileMenuOpen && (
         <>
             {/* Backdrop */}
-            <div 
+            <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
                 className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
                 onClick={() => setMobileMenuOpen(false)}
             />
             
             {/* Sidebar */}
-            <div className="fixed inset-y-0 left-0 z-50 w-64 bg-black border-r border-[#D4AF37] p-6 shadow-2xl animate-in slide-in-from-left duration-300 md:hidden" style={{ backgroundColor: '#000000' }}>
+            <motion.div 
+                initial={{ x: "-100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "-100%" }}
+                transition={{ type: "tween", duration: 0.3 }}
+                className="fixed inset-y-0 left-0 z-[100] w-64 bg-black p-6 shadow-2xl md:hidden h-[100dvh] overflow-y-auto"
+                style={{ backgroundColor: "#000000" }}
+            >
                 <div className="flex justify-between items-center mb-8 border-b border-[#D4AF37]/30 pb-4">
                     <span className="text-xl font-bold text-[#D4AF37] tracking-widest">MENU</span>
                     <button 
@@ -215,9 +237,10 @@ export function Header() {
                         </>
                     )}
                 </div>
-            </div>
+            </motion.div>
         </>
       )}
+      </AnimatePresence>
     </header>
   );
 }

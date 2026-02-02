@@ -1,7 +1,11 @@
 
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Heart } from "lucide-react";
+import { useWishlist } from "@/context/WishlistContext";
+import { MouseEvent } from "react";
 
 export interface Product {
     id: string;
@@ -19,6 +23,27 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+    const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+    const isWishlisted = isInWishlist(product.id);
+
+    const handleWishlistClick = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault(); 
+        e.stopPropagation();
+
+        if (isWishlisted) {
+            removeFromWishlist(product.id);
+        } else {
+            addToWishlist({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                imageUrl: product.imageUrl,
+                slug: product.slug,
+                brand: product.brand
+            });
+        }
+    };
+
     return (
         <Link href={`/products/${product.slug}`} className="group relative block overflow-hidden rounded-sm bg-transparent transition-all duration-300">
             <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 dark:bg-gray-800 mb-4">
@@ -35,8 +60,11 @@ export function ProductCard({ product }: ProductCardProps) {
                         No Image
                     </div>
                 )}
-                <button className="absolute top-2 right-2 p-2 rounded-full bg-white/10 backdrop-blur-md hover:bg-[#D4AF37] text-white transition-all shadow-sm opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0">
-                    <Heart className="w-5 h-5" />
+                <button 
+                    onClick={handleWishlistClick}
+                    className={`absolute top-2 right-2 p-2 rounded-full backdrop-blur-md transition-all shadow-sm opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 ${isWishlisted ? 'bg-white text-red-500 opacity-100 translate-y-0' : 'bg-white/10 text-white hover:bg-[#D4AF37]'}`}
+                >
+                    <Heart className={`w-5 h-5 ${isWishlisted ? 'fill-current' : ''}`} />
                 </button>
                 {/* Optional Sale Badge */}
                 {product.originalPrice && (
